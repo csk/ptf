@@ -380,7 +380,7 @@ def use_module(module, all_trigger):
                             if prompt != "update":
                                 after_commands(filename, install_location)
 
-                        if not sys.platform == 'darwin':
+                        if not profile_os() == "OSX":
                             print_status("Running updatedb to tidy everything up.")
                             subprocess.Popen("updatedb", shell=True).wait()
 
@@ -497,7 +497,7 @@ def use_module(module, all_trigger):
                         launcher(filename, install_location)
                         after_commands(filename, install_location)
 
-                    if not sys.platform == 'darwin':
+                    if not profile_os() == "OSX":
                         print_status("Running updatedb to tidy everything up.")
                         subprocess.Popen("updatedb", shell=True).wait()
 

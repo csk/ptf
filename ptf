@@ -52,6 +52,13 @@ def have_internet():
 # some OS doesn't have BASE_BIN_PATH create them if not
 if not os.path.isdir(BASE_BIN_PATH): os.makedirs(BASE_BIN_PATH)
 
+
+if not profile_os() == "OSX":
+    if os.geteuid() != 0:
+        print("\nThe Pentesters Framework (PTF) - by David Kennedy (ReL1K)")
+        print("\nThis needs to be run as root. Please sudo it up! Exiting...")
+        exit()
+
 try:
 
     # Bypass network check with argument
