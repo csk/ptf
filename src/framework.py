@@ -588,6 +588,8 @@ def handle_prompt(prompt, force=False):
                 fedora_modules = ""
                 # base holder for all openbsd packages
                 openbsd_modules = ""
+                # base holder for all openbsd packages
+                osx_modules = ""
 
                 # first we install all depends for all applications
                 print_status(
@@ -639,6 +641,14 @@ def handle_prompt(prompt, force=False):
                                     openbsd_modules = openbsd_modules + "," + \
                                         module_parser(
                                             filename_short, "OPENBSD")
+                            # osx
+                            if ostype == "OSX":
+                                if not "install_update_all" in filename_short:
+                                    from src.platforms.osx import base_install_modules
+                                    # grab all the modules we need
+                                    osx_modules = osx_modules + "," + \
+                                        module_parser(
+                                            filename_short, "OSX")
 
                 # install all of the packages at once
                 ostype = profile_os()
@@ -665,6 +675,12 @@ def handle_prompt(prompt, force=False):
                     openbsd_modules = openbsd_modules.replace(",", " ")
                     if openbsd_modules != "":
                         base_install_modules(openbsd_modules)
+                    print_status("Finished updating depends for modules.")
+
+                if ostype == "OSX":
+                    osx_modules = osx_modules.replace(",", " ")
+                    if osx_modules != "":
+                        base_install_modules(osx_modules)
                     print_status("Finished updating depends for modules.")
 
                 for path, subdirs, files in os.walk(modules_path):

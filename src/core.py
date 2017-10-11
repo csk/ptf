@@ -192,7 +192,7 @@ def check_config(param):
                 line = line.split("=")
                 return line[1]
 
-BASE_BIN_PATH=check_config("BASE_BIN_PATH=")
+BASE_BIN_PATH=os.path.expandvars(check_config("BASE_BIN_PATH="))
 
 # parser module for module and term
 def module_parser(filename, term):
@@ -267,6 +267,8 @@ def profile_os():
 
     if os.path.isfile("/etc/fedora-release"):
         return "FEDORA"
+    if sys.platform == 'darwin':
+        return "OSX"
 
     # will add support for more operating systems later
     # else use custom
