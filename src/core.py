@@ -193,6 +193,7 @@ def check_config(param):
                 return line[1]
 
 BASE_BIN_PATH=os.path.expandvars(check_config("BASE_BIN_PATH="))
+BASE_INSTALL_PATH=os.path.expandvars(check_config("BASE_INSTALL_PATH="))
 
 # parser module for module and term
 def module_parser(filename, term):
