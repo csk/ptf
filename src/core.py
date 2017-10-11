@@ -192,6 +192,8 @@ def check_config(param):
                 line = line.split("=")
                 return line[1]
 
+BASE_BIN_PATH=check_config("BASE_BIN_PATH=")
+
 # parser module for module and term
 def module_parser(filename, term):
     # if the file exists
@@ -315,7 +317,7 @@ def after_commands(filename, install_location):
         after_commands(commands, install_location)
         print_status("Completed running after commands routine..")
 
-# launcher - create launcher under /usr/local/bin
+# launcher - create launcher under BASE_BIN_PATH
 def launcher(filename, install_location):
     launcher = module_parser(filename, "LAUNCHER")
 
@@ -334,9 +336,9 @@ def launcher(filename, install_location):
                 launchers = launcher
                 base_launcher = 1
 
-            if os.path.isfile("/usr/local/bin/" + launchers):
-                os.remove("/usr/local/bin/" + launchers)
-            if not os.path.isfile("/usr/local/bin/" + launchers):
+            if os.path.isfile(BASE_BIN_PATH + "/" + launchers):
+                os.remove(BASE_BIN_PATH + "/" + launchers)
+            if not os.path.isfile(BASE_BIN_PATH + "/" + launchers):
 
                 # base launcher filename
                 point = ""
@@ -379,12 +381,12 @@ def launcher(filename, install_location):
 
                 # if we found filetype
                 if point != "":
-                    filewrite = open("/usr/local/bin/" + launchers, "w")
+                    filewrite = open(BASE_BIN_PATH + "/" + launchers, "w")
                     filewrite.write('#!/bin/sh\n[ -x %s%s ] || chmod +x %s%s\n%s%s $*\n' %
                                     (install_location, file_point, install_location, file_point, install_location, file_point))
                     filewrite.close()
-                    subprocess.Popen("chmod +x /usr/local/bin/%s" %
-                                     (launchers), shell=True).wait()
+                    subprocess.Popen("chmod +x %s/%s" %
+                                     (BASE_BIN_PATH, launchers), shell=True).wait()
                     print_status(
                         "Created automatic launcher, you can run the tool from anywhere by typing: " + launchers)
 

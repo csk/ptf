@@ -380,8 +380,9 @@ def use_module(module, all_trigger):
                             if prompt != "update":
                                 after_commands(filename, install_location)
 
-                        print_status("Running updatedb to tidy everything up.")
-                        subprocess.Popen("updatedb", shell=True).wait()
+                        if not sys.platform == 'darwin':
+                            print_status("Running updatedb to tidy everything up.")
+                            subprocess.Popen("updatedb", shell=True).wait()
 
                     if not os.path.isdir(install_location):
                         print_error(
@@ -496,8 +497,9 @@ def use_module(module, all_trigger):
                         launcher(filename, install_location)
                         after_commands(filename, install_location)
 
-                    print_status("Running updatedb to tidy everything up.")
-                    subprocess.Popen("updatedb", shell=True).wait()
+                    if not sys.platform == 'darwin':
+                        print_status("Running updatedb to tidy everything up.")
+                        subprocess.Popen("updatedb", shell=True).wait()
 
             # if we update all we need to break out until finished
             if int(all_trigger) == 1 or int(all_trigger) == 2:
